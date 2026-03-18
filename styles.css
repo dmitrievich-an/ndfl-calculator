@@ -1,0 +1,770 @@
+/* =====================
+   CSS-переменные / темы
+   ===================== */
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --card: #1a1a26;
+  --border: #2a2a40;
+  --accent: #7c6af7;
+  --accent2: #f76a8c;
+  --accent3: #6af7c8;
+  --text: #e8e8f0;
+  --muted: #6a6a88;
+  --white: #ffffff;
+}
+
+:root.light {
+  --bg: #f4f4fa;
+  --surface: #eaeaf4;
+  --card: #ffffff;
+  --border: #d4d4e8;
+  --accent: #6355e0;
+  --accent2: #e8406e;
+  --accent3: #20c99a;
+  --text: #1a1a2e;
+  --muted: #8888aa;
+  --white: #1a1a2e;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) {
+    --bg: #f4f4fa;
+    --surface: #eaeaf4;
+    --card: #ffffff;
+    --border: #d4d4e8;
+    --accent: #6355e0;
+    --accent2: #e8406e;
+    --accent3: #20c99a;
+    --text: #1a1a2e;
+    --muted: #8888aa;
+    --white: #1a1a2e;
+  }
+}
+
+/* =====================
+   Сброс и базовые стили
+   ===================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Фоновая сетка */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(124,106,247,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,106,247,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Светящийся шар (верхний левый) — через отдельный div, чтобы не ломать fixed */
+.orb1 {
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(124,106,247,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 15s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(200px, 150px); }
+}
+
+/* Светящийся шар (нижний правый) */
+.orb2 {
+  position: fixed;
+  bottom: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(247,106,140,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =====================
+   Контейнер
+   ===================== */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================
+   Шапка
+   ===================== */
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeDown 0.6s ease both;
+}
+
+.header .badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(124,106,247,0.4);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: rgba(124,106,247,0.08);
+}
+
+.header h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--white) 0%, var(--accent) 60%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.header p {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 300;
+}
+
+/* =====================
+   Вкладки
+   ===================== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 5px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(124,106,247,0.4);
+}
+
+.tab:not(.active):hover {
+  color: var(--text);
+  background: var(--card);
+}
+
+/* =====================
+   Поле ввода
+   ===================== */
+.input-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s 0.2s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.input-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0.6;
+}
+
+.input-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124,106,247,0.15);
+}
+
+.input-prefix {
+  padding: 16px 18px;
+  font-size: 16px;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  font-weight: 300;
+}
+
+.salary-input {
+  flex: 1;
+  padding: 16px 18px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  width: 100%;
+}
+
+.salary-input::placeholder { color: var(--muted); font-weight: 300; }
+
+.clear-btn {
+  padding: 0 18px;
+  align-self: stretch;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.clear-btn:hover { color: var(--accent2); background: rgba(247,106,140,0.08); }
+.clear-btn.visible { display: flex; }
+
+#input-error {
+  display: none;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--accent2);
+  letter-spacing: 0.5px;
+}
+
+/* =====================
+   Результаты
+   ===================== */
+.results {
+  display: none;
+  animation: fadeUp 0.5s ease both;
+}
+
+.results.visible { display: block; }
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.result-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.result-card:hover { transform: translateY(-2px); border-color: rgba(124,106,247,0.4); }
+
+/* Цветные карточки */
+.result-card.highlight  { border-color: rgba(124,106,247,0.5); background: linear-gradient(135deg, rgba(124,106,247,0.1), var(--card)); }
+.result-card.danger     { border-color: rgba(247,106,140,0.3); background: linear-gradient(135deg, rgba(247,106,140,0.06), var(--card)); }
+.result-card.success    { border-color: rgba(106,247,200,0.3); background: linear-gradient(135deg, rgba(106,247,200,0.05), var(--card)); }
+.result-card.info       { border-color: rgba(106,180,247,0.3); background: linear-gradient(135deg, rgba(106,180,247,0.06), var(--card)); }
+.result-card.info2      { border-color: rgba(124,247,160,0.3); background: linear-gradient(135deg, rgba(124,247,160,0.05), var(--card)); }
+.result-card.danger2    { border-color: rgba(247,160,106,0.3); background: linear-gradient(135deg, rgba(247,160,106,0.06), var(--card)); }
+
+.result-card.highlight::before,
+.result-card.danger::before,
+.result-card.success::before,
+.result-card.info::before,
+.result-card.info2::before,
+.result-card.danger2::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.result-card.highlight::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+.result-card.danger::before    { background: linear-gradient(90deg, var(--accent2), #f7a06a); }
+.result-card.success::before   { background: linear-gradient(90deg, var(--accent3), #6af7f0); }
+.result-card.info::before      { background: linear-gradient(90deg, #6ab4f7, #6a8ef7); }
+.result-card.info2::before     { background: linear-gradient(90deg, #7cf7a0, #6af7c8); }
+.result-card.danger2::before   { background: linear-gradient(90deg, #f7a06a, #f7c86a); }
+
+.result-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.result-value {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.result-value .currency {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+/* =====================
+   Шкала распределения
+   ===================== */
+.breakdown-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.breakdown-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.bar-container {
+  height: 10px;
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  display: flex;
+}
+
+.bar-net {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  border-radius: 10px 0 0 10px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bar-tax {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent2), #f7a06a);
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bar-legend { display: flex; gap: 24px; font-size: 11px; }
+
+.legend-item { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.legend-dot.net { background: var(--accent); }
+.legend-dot.tax { background: var(--accent2); }
+
+/* =====================
+   Налоговые ступени
+   ===================== */
+.brackets-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 12px;
+}
+
+.brackets-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.bracket-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 16px;
+  transition: opacity 0.3s;
+}
+
+.bracket-row:last-child { border-bottom: none; }
+.bracket-row.inactive { opacity: 0.3; }
+
+.bracket-rate {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 48px;
+  color: var(--accent);
+}
+
+.bracket-row.inactive .bracket-rate { color: var(--muted); }
+
+.bracket-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--surface);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bracket-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  width: 0;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bracket-amount { font-size: 12px; color: var(--muted); min-width: 80px; text-align: right; }
+.bracket-range  { font-size: 10px; color: var(--muted); min-width: 100px; text-align: right; letter-spacing: 0.3px; }
+
+/* =====================
+   Помесячная разбивка
+   ===================== */
+.monthly-toggle-wrap { margin-bottom: 12px; }
+
+.monthly-toggle-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.monthly-toggle-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(124,106,247,0.15);
+}
+
+.monthly-arrow {
+  margin-left: auto;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+  color: var(--accent);
+}
+
+.monthly-arrow.open { transform: rotate(180deg); }
+
+.monthly-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 24px;
+  display: none;
+  animation: fadeUp 0.4s ease both;
+  position: relative;
+  overflow: hidden;
+}
+
+.monthly-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+}
+
+.monthly-card.open { display: block; }
+
+.monthly-subtabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.monthly-subtab {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.monthly-subtab.active {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: 0 2px 10px rgba(124,106,247,0.35);
+}
+
+.monthly-subtab:not(.active):hover {
+  color: var(--text);
+  background: var(--card);
+}
+
+.monthly-explanation {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 12px;
+  border-left: 3px solid var(--accent);
+}
+
+.monthly-explanation strong { color: var(--text); }
+
+.monthly-table-wrap { overflow-x: auto; }
+
+.monthly-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.monthly-table th {
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.monthly-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.monthly-table tr:last-child td { border-bottom: none; }
+.monthly-table tr.rate-change td { border-top: 2px dashed rgba(124,106,247,0.4); }
+
+.month-name  { color: var(--text); font-weight: 500; }
+.month-gross { color: var(--muted); }
+.month-net   { color: var(--accent3); font-weight: 500; }
+.month-tax   { color: var(--accent2); }
+
+.month-rate {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.monthly-table tfoot td {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.monthly-note {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(247,106,140,0.08);
+  border: 1px solid rgba(247,106,140,0.25);
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* =====================
+   Переключатель темы
+   ===================== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(124,106,247,0.25);
+  transform: translateY(-1px);
+}
+
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+
+:root.light .icon-sun { display: block; }
+:root.light .icon-moon { display: none; }
+
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) .icon-sun { display: block; }
+  :root:not(.dark) .icon-moon { display: none; }
+}
+
+/* =====================
+   Подпись автора
+   ===================== */
+.author-badge {
+  text-align: right;
+  padding: 24px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.author-badge:hover { opacity: 1; }
+
+.author-badge a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.author-badge a:hover { color: var(--accent2); }
+
+/* =====================
+   Анимации
+   ===================== */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================
+   Адаптив
+   ===================== */
+@media (max-width: 600px) {
+  /* Шапка */
+  .container { padding: 24px 16px 20px; }
+  .header { margin-bottom: 32px; }
+
+  /* Вкладки — вертикально */
+  .tabs { flex-direction: column; gap: 6px; }
+  .tab { padding: 12px 16px; font-size: 13px; }
+
+  /* Поле ввода */
+  .input-card { padding: 20px 16px; }
+  .salary-input { font-size: 18px; }
+
+  /* Карточки — одна колонка, крупнее */
+  .results-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .result-card { padding: 16px; }
+  .result-value { font-size: 18px; }
+
+  /* Шкала и ступени */
+  .breakdown-card,
+  .brackets-card,
+  .monthly-card { padding: 18px 14px; }
+
+  /* Скрываем диапазон ступеней */
+  .bracket-range { display: none; }
+  .bracket-amount { min-width: 60px; font-size: 11px; }
+
+  /* Таблица помесячно — горизонтальный скролл */
+  .monthly-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -14px;
+    padding: 0 14px;
+  }
+
+  .monthly-table { min-width: 420px; }
+
+  /* Кнопка темы не перекрывает контент */
+  .theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 17px; }
+}
+
+@media (max-width: 380px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .salary-input { font-size: 16px; }
+}

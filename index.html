@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор НДФЛ</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="orb1"></div>
+<div class="orb2"></div>
+
+<button class="theme-toggle" id="theme-toggle" title="Переключить тему">
+  <span class="icon-sun">☀️</span>
+  <span class="icon-moon">🌙</span>
+</button>
+
+<div class="container">
+
+  <div class="header">
+    <div class="badge">Налог · 2026</div>
+    <h1>НДФЛ<br>Калькулятор</h1>
+    <p>Прогрессивная шкала налогообложения рассчитывается<br>как среднее в месяц за год. Помесячная разбивка представлена ниже.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="setMode(1)">Оклад → На руки</button>
+    <button class="tab" onclick="setMode(2)">На руки → Оклад</button>
+  </div>
+
+  <div class="input-card">
+    <label class="input-label" id="input-label">Оклад до налогов (в месяц)</label>
+    <div class="input-wrapper">
+      <span class="input-prefix">₽</span>
+      <input class="salary-input" id="salary-input" type="text" inputmode="numeric" placeholder="200 000">
+      <button class="clear-btn" id="clear-btn" onclick="clearInput()" title="Очистить">✕</button>
+    </div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-grid" id="results-grid"></div>
+
+    <div class="breakdown-card">
+      <div class="breakdown-title">Распределение дохода</div>
+      <div class="bar-container">
+        <div class="bar-net" id="bar-net"></div>
+        <div class="bar-tax" id="bar-tax"></div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item">
+          <div class="legend-dot net"></div>
+          <span id="legend-net-pct">—</span> на руки
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot tax"></div>
+          <span id="legend-tax-pct">—</span> налог
+        </div>
+      </div>
+    </div>
+
+    <div class="brackets-card">
+      <div class="brackets-title">Налоговые ступени</div>
+      <div id="brackets-list"></div>
+    </div>
+
+    <!-- Помесячная разбивка -->
+    <div class="monthly-toggle-wrap">
+      <button class="monthly-toggle-btn" id="monthly-toggle-btn" onclick="toggleMonthly()">
+        <span>📅</span> Разбивка по месяцам
+        <span class="monthly-arrow" id="monthly-arrow">↓</span>
+      </button>
+    </div>
+
+    <div class="monthly-card" id="monthly-card">
+      <div class="monthly-subtabs">
+        <button class="monthly-subtab active" id="subtab-full" onclick="setMonthlyView('full')">Весь год</button>
+        <button class="monthly-subtab" id="subtab-remaining" onclick="setMonthlyView('remaining')">Остаток года</button>
+      </div>
+      <div class="monthly-explanation" id="monthly-explanation"></div>
+      <div class="monthly-table-wrap">
+        <table class="monthly-table" id="monthly-table"></table>
+      </div>
+      <div class="monthly-note" id="monthly-note" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="author-badge">
+    Автор — <a href="https://t.me/Artem_D_N" target="_blank" rel="noopener">@Artem_D_N</a>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
